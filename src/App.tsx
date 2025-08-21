@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import HowItWorks from './pages/HowItWorks';
 import Dashboard from './pages/Dashboard';
+import Quests from './pages/Quests';
 import About from './pages/About';
 import Pricing from './pages/Pricing';
 import Auth from './pages/Auth';
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/quests" element={<Quests />} />
           <Route path="/about" element={<About />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/auth" element={<Auth />} />

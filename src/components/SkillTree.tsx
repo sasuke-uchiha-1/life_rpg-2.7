@@ -79,7 +79,7 @@ const SkillTree = () => {
         <p className="text-gray-300">Your journey radiates outward from the center - you are the hub of your own mastery</p>
       </div>
       
-      <div className="flex justify-center">
+      <div className="flex justify-center w-full">
         <div className="relative w-96 h-96 bg-gradient-to-br from-gray-900/50 to-slate-900/20 border border-cyan-500/20 rounded-full overflow-hidden">
           {/* Central User Node */}
           <motion.div
@@ -88,7 +88,7 @@ const SkillTree = () => {
             transition={{ duration: 0.8 }}
             className="absolute w-16 h-16 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-full flex items-center justify-center border-4 border-white/20"
             style={{
-              left: '176px', // 192 - 16/2 = 184px for perfect center
+              left: '176px', // 192 - 16/2 = 176px for perfect center
               top: '176px'
             }}
           >
@@ -163,7 +163,8 @@ const SkillTree = () => {
       </div>
 
       {/* Legend */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
+      <div className="flex justify-center">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-4xl">
         {skillNodes.map((skill, index) => (
           <motion.div
             key={skill.name}
@@ -179,6 +180,7 @@ const SkillTree = () => {
             <div className="text-xs text-cyan-400">Level {skill.level}</div>
           </motion.div>
         ))}
+        </div>
       </div>
     </div>
   );

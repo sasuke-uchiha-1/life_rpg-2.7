@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plus, Target, Brain, Heart, DollarSign, Users, Palette, Shield } from 'lucide-react';
 
-interface QuestModalProps {
+interface UserQuestModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddQuest: (quest: { title: string; category: string; xp: number }) => void;
+  onAddQuest: (quest: { title: string; category: string; xp: number; repeatFrequency: string; customDays?: number }) => void;
 }
 
-const QuestModal: React.FC<QuestModalProps> = ({ isOpen, onClose, onAddQuest }) => {
+const UserQuestModal: React.FC<UserQuestModalProps> = ({ isOpen, onClose, onAddQuest }) => {
   const [customQuest, setCustomQuest] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Mind');
+  const [repeatFrequency, setRepeatFrequency] = useState('daily');
+  const [customDays, setCustomDays] = useState(3);
 
   const categories = [
     { name: 'Mind', icon: Brain, color: 'from-blue-500 to-purple-500' },
@@ -66,12 +68,22 @@ const QuestModal: React.FC<QuestModalProps> = ({ isOpen, onClose, onAddQuest }) 
     ]
   };
 
+  const repeatOptions = [
+    { value: 'daily', label: 'Daily' },
+    { value: 'weekly', label: 'Weekly' },
+    { value: 'monthly', label: 'Monthly' },
+    { value: 'custom', label: 'Custom' },
+    { value: 'one-time', label: 'One-time' }
+  ];
+
   const handleAddQuest = (questTitle: string) => {
     const xpValues = { Mind: 50, Body: 75, Wealth: 100, Relationships: 60, Creativity: 50, Discipline: 40 };
     onAddQuest({
       title: questTitle,
       category: selectedCategory,
-      xp: xpValues[selectedCategory as keyof typeof xpValues] || 50
+      xp: xpValues[selectedCategory as keyof typeof xpValues] || 50,
+      repeatFrequency,
+      customDays: repeatFrequency === 'custom' ? customDays : undefined
     });
     setCustomQuest('');
     onClose();
@@ -102,7 +114,7 @@ const QuestModal: React.FC<QuestModalProps> = ({ isOpen, onClose, onAddQuest }) 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">Add New Training</h2>
+              <h2 className="text-2xl font-bold text-white">Add New Quest</h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
@@ -136,9 +148,44 @@ const QuestModal: React.FC<QuestModalProps> = ({ isOpen, onClose, onAddQuest }) 
               </div>
             </div>
 
+            {/* Repeat Frequency */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-white mb-3">Repeat Frequency</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                {repeatOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setRepeatFrequency(option.value)}
+                    className={`p-3 rounded-xl border-2 transition-all duration-200 ${
+                      repeatFrequency === option.value
+                        ? 'border-cyan-500 bg-cyan-500/10 text-cyan-400'
+                        : 'border-gray-600 hover:border-gray-500 text-gray-300'
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+              
+              {repeatFrequency === 'custom' && (
+                <div className="flex items-center gap-3">
+                  <label className="text-white">Every</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="365"
+                    value={customDays}
+                    onChange={(e) => setCustomDays(parseInt(e.target.value) || 1)}
+                    className="w-20 p-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-cyan-500"
+                  />
+                  <label className="text-white">days</label>
+                </div>
+              )}
+            </div>
+
             {/* Suggested Quests */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-white mb-3">Suggested Training</h3>
+              <h3 className="text-lg font-semibold text-white mb-3">Suggested Quests</h3>
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {suggestedQuests[selectedCategory as keyof typeof suggestedQuests]?.map((quest, index) => (
                   <motion.button
@@ -160,14 +207,14 @@ const QuestModal: React.FC<QuestModalProps> = ({ isOpen, onClose, onAddQuest }) 
 
             {/* Custom Quest Input */}
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Create Custom Training</h3>
+              <h3 className="text-lg font-semibold text-white mb-3">Create Custom Quest</h3>
               <form onSubmit={handleCustomSubmit} className="space-y-4">
                 <div>
                   <input
                     type="text"
                     value={customQuest}
                     onChange={(e) => setCustomQuest(e.target.value)}
-                    placeholder="Enter your custom training session..."
+                    placeholder="Enter your custom quest..."
                     className="w-full p-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
                   />
                 </div>
@@ -185,7 +232,7 @@ const QuestModal: React.FC<QuestModalProps> = ({ isOpen, onClose, onAddQuest }) 
                     className="flex-1 py-3 px-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
                   >
                     <Plus className="h-4 w-4" />
-                    Add Training
+                    Add Quest
                   </button>
                 </div>
               </form>
@@ -197,4 +244,4 @@ const QuestModal: React.FC<QuestModalProps> = ({ isOpen, onClose, onAddQuest }) 
   );
 };
 
-export default QuestModal;
+export default UserQuestModal;

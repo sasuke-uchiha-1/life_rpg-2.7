@@ -51,8 +51,8 @@ const StreakSystem: React.FC<StreakSystemProps> = ({ streak, xpMultiplier, statu
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className={`p-4 bg-gradient-to-r ${buff.color} bg-opacity-20 border border-opacity-30 rounded-xl ${
-        status === 'broken' ? 'border-gray-500' : 'border-current'
+      className={`p-4 bg-gradient-to-br from-gray-900/50 to-slate-900/20 border rounded-xl ${
+        status === 'broken' ? 'border-gray-500/30' : 'border-cyan-500/30'
       }`}
     >
       <div className="flex items-center justify-between mb-3">
@@ -69,7 +69,7 @@ const StreakSystem: React.FC<StreakSystemProps> = ({ streak, xpMultiplier, statu
       </div>
       
       <div className="mb-2">
-        <h4 className="font-semibold text-white">{buff.name}</h4>
+        <h4 className="font-semibold text-cyan-400">{buff.name}</h4>
         <p className="text-sm text-gray-300">{getStatusMessage()}</p>
       </div>
 
@@ -79,7 +79,7 @@ const StreakSystem: React.FC<StreakSystemProps> = ({ streak, xpMultiplier, statu
           initial={{ width: 0 }}
           animate={{ width: `${Math.min((streak % 7) / 7 * 100, 100)}%` }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className={`h-2 bg-gradient-to-r ${buff.color} rounded-full`}
+          className="h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
         />
       </div>
       

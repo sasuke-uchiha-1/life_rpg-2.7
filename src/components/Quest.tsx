@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Crown, Zap, Target, Clock, Star } from 'lucide-react';
 
-interface BossQuestProps {
+interface QuestProps {
   title: string;
   description: string;
   difficulty: 'Elite' | 'Master' | 'Legendary';
@@ -15,7 +15,7 @@ interface BossQuestProps {
   onAccept?: () => void;
 }
 
-const BossQuest: React.FC<BossQuestProps> = ({
+const Quest: React.FC<QuestProps> = ({
   title,
   description,
   difficulty,
@@ -166,4 +166,4 @@ const BossQuest: React.FC<BossQuestProps> = ({
   );
 };
 
-export default BossQuest;
+export default Quest;
